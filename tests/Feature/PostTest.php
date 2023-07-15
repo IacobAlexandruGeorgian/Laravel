@@ -20,6 +20,7 @@ class PostTest extends TestCase
         $response = $this->get('/posts');
 
         $response->assertSeeText('No posts found!');
+        
     }
 
     public function test_blog_posts_add()
