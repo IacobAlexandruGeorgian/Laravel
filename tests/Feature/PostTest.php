@@ -20,7 +20,7 @@ class PostTest extends TestCase
         $response = $this->get('/posts');
 
         $response->assertSeeText('No posts found!');
-        
+
     }
 
     public function test_blog_posts_add()
@@ -73,7 +73,8 @@ class PostTest extends TestCase
 
     public function test_update_valid()
     {
-        $post = $this->createPost();
+        $user = $this->user();
+        $post = $this->createPost($user->id);
 
         $this->assertDatabaseHas('blog_posts', [
             'title' => 'New title',
@@ -85,7 +86,7 @@ class PostTest extends TestCase
             'content' => 'A new content',
         ];
 
-        $this->actingAs($this->user())
+        $this->actingAs($user)
             ->put("/posts/{$post->id}", $params)
             ->assertStatus(302)
             ->assertSessionHas('status');
@@ -100,14 +101,15 @@ class PostTest extends TestCase
 
     public function test_delete_post()
     {
-        $post = $this->createPost();
+        $user = $this->user();
+        $post = $this->createPost($user->id);
 
         $this->assertDatabaseHas('blog_posts', [
             'title' => 'New title',
             'content' => 'Content of the blog post',
         ]);
 
-        $this->actingAs($this->user())
+        $this->actingAs($user)
             ->delete("/posts/{$post->id}")
             ->assertStatus(302)
             ->assertSessionHas('status');
@@ -115,6 +117,7 @@ class PostTest extends TestCase
         $this->assertEquals(session('status'), 'Blog post was deleted!');
 
         $this->assertDatabaseMissing('blog_posts', $post->toArray());
+        // $this->assertSoftDeleted('blog_posts', $post->toArray());
     }
 
     public function test_blog_post_with_comments()
@@ -129,9 +132,11 @@ class PostTest extends TestCase
         $response->assertSeeText('4 comments');
     }
 
-    private function createPost(): BlogPost
+    private function createPost($userId = null): BlogPost
     {
-        $post = BlogPost::factory()->specificBlogPost()->create();
+        $post = BlogPost::factory()->specificBlogPost()->create([
+            'user_id' => $userId ?? $this->user()->id,
+        ]);
 
         return $post;
     }
