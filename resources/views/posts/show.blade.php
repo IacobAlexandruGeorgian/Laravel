@@ -3,23 +3,33 @@
 @section('title', $post->title)
 
 @section('content')
-    <h1>{{ $post->title }}</h1>
-    <p>{{ $post->content }}</p>
-    <p>Added {{ $post->created_at->diffForHumans() }} by {{ $post->user->name }}</p>
+    <h1>
+        {{ $post->title }}
 
-    @if(now()->diffInMinutes($post->created_at) < 5)
-        <div class="alert alert-info">New!</div>
-    @endif
+        @badge(['show' => now()->diffInMinutes($post->created_at) < 30])
+            New Post !
+        @endbadge
+
+    </h1>
+    <p>{{ $post->content }}</p>
+
+    @updated(['date' => $post->created_at, 'name' => $post->user->name])
+
+    @endupdated
+
+    @updated(['date' => $post->updated_at])
+        Updated
+    @endupdated
 
     <h4>Comments</h4>
-    
+
     @forelse ($post->comments as $comment)
         <p>
             {{ $comment->content }},
         </p>
-        <p class="text-muted">
-            added {{ $comment->created_at->diffForHumans() }}
-        </p>
+        @updated(['date' => $comment->created_at])
+
+        @endupdated
     @empty
         <p>No comments yet!</p>
     @endforelse
