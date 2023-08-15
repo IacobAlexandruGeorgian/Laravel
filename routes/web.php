@@ -23,4 +23,8 @@ Route::get('/secret', [HomeController::class, 'secret'])->middleware('can:home.s
 
 Route::resource('posts', PostsController::class);
 
+Route::get('/posts/tag/{id}', 'PostTagController@index')->name('posts.tags.index');
+
 Auth::routes();
+
+
