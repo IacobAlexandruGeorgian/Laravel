@@ -116,15 +116,18 @@ class PostTest extends TestCase
 
         $this->assertEquals(session('status'), 'Blog post was deleted!');
 
-        $this->assertDatabaseMissing('blog_posts', $post->toArray());
-        // $this->assertSoftDeleted('blog_posts', $post->toArray());
+        // $this->assertDatabaseMissing('blog_posts', $post->toArray());
+        $this->assertSoftDeleted('blog_posts', $post->toArray());
     }
 
     public function test_blog_post_with_comments()
     {
+        $user = $this->user();
         $post = $this->createPost();
         $comments = Comment::factory()->count(4)->create([
-            'blog_post_id' => $post->id
+            'commentable_id' => $post->id,
+            'commentable_type' => BlogPost::class,
+            'user_id' => $user->id
         ]);
 
         $response = $this->get('/posts');

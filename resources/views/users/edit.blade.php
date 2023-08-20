@@ -18,10 +18,10 @@
             </div>
 
             <div class="col-8">
-                <div class="form-group">
+                {{-- <div class="form-group">
                     <label for="name">Name:</label>
                     <input class="form-control" type="text" value="" name="name">
-                </div>
+                </div> --}}
 
                 @errors
                 @enderrors
