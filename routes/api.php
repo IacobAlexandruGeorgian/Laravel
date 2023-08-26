@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\V1\PostCommentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,4 +17,23 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::prefix('v1')->name('api.v1.')->namespace('Api\V1')->group(function () {
+    Route::get('/status', function () {
+        return response()->json(['status' => 'ok']);
+    })->name('status');
+    Route::apiResource('post.comments', 'PostCommentController');
+});
+
+Route::prefix('v2')->name('api.v2.')->group(function () {
+    Route::get('/status', function () {
+        return response()->json(['status' => true]);
+    });
+});
+
+Route::fallback(function () {
+    return response()->json([
+        'message' => 'Not found'
+    ], 404)->name('api.fallback');
 });

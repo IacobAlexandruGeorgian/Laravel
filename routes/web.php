@@ -28,7 +28,7 @@ Route::get('/contact', [HomeController::class, 'contact'])->name('home.contact')
 Route::get('/secret', [HomeController::class, 'secret'])->middleware('can:home.secret')->name('secret');
 
 Route::resource('posts', PostsController::class);
-Route::resource('posts.comments', PostCommentController::class)->only(['store']);
+Route::resource('posts.comments', PostCommentController::class)->only(['index', 'store']);
 Route::resource('users', UserController::class)->only(['show', 'edit', 'update']);
 Route::resource('users.comments', UserCommentController::class)->only(['store']);
 
