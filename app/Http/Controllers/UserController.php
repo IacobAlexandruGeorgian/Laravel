@@ -59,7 +59,7 @@ class UserController extends Controller
 
         return view('users.show', [
             'user' => $user,
-            'counter' => CounterFacade::increment("user-{}$user->id")
+            'counter' => CounterFacade::increment("user-{$user->id}")
         ]);
     }
 
