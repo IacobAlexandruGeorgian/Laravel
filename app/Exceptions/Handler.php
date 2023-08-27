@@ -31,7 +31,7 @@ class Handler extends ExceptionHandler
 
     public function render($request, Throwable $e)
     {
-        if ($request->exceptJson() && $e instanceof ModelNotFoundException) {
+        if ($request->expectsJson() && $e instanceof ModelNotFoundException) {
             return Route::respondWithRoute('api.fallback');
         }
 
