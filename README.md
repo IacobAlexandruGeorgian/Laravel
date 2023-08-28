@@ -31,6 +31,9 @@
 
 ![image](https://github.com/IacobAlexandruGeorgian/Laravel/assets/84518155/5d174bc3-4be2-44db-96bf-d26b3887a50a)
 
+![image](https://github.com/IacobAlexandruGeorgian/Laravel/assets/84518155/7b8a6fd0-4ac3-44a2-babf-1b580022481f)
+
+
 
 
 
